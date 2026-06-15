@@ -43,7 +43,7 @@ Assuming a unit sphere constraint on joint velocities ($\|\dot{\theta}\|^2 \le 1
 $$J_v = U \Sigma V^T$$
 
 * **Eigenvectors ($U$):** The columns of the orthogonal matrix $U$ define the rotation matrix of the ellipse axes relative to the base frame. The major axis angle is computed via:
-  $$\phi = \operatorname{atan2}(U_{1,0}, U_{0,0})$$
+  $$\phi = \text{atan2}(U_{1,0}, U_{0,0})$$
 * **Singular Values ($\Sigma = \operatorname{diag}(\sigma_1, \sigma_2)$):** The singular values ($\sigma_{\max}, \sigma_{\min}$) correspond directly to the lengths of the semi-major and semi-minor axes of the manipulability ellipsoid.
 
 ---
