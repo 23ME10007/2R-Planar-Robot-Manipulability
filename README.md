@@ -18,7 +18,7 @@ The analyzer evaluates specified joint configurations and dynamically overlays a
 This project implements core theory outlined in foundational robotic textbooks like *Modern Robotics* (Lynch & Park).
 
 ### 1. Forward Kinematics
-Given link lengths $L_1, L_2$ and joint angles $\theta_1, \theta_2$, the Cartesian position $(x_2, y_2)$ of the end-effector relative to a fixed base frame $(x_0, y_0) = (0,0)$ is mapped via geometric link projections:
+Given link lengths L1, L2 and joint angles theta1, theta2, the Cartesian position (x2, y2) of the end-effector relative to a fixed base frame (x0, y0) = (0,0) is mapped via geometric link projections:
 
 $$x_1 = L_1 \cos(\theta_1)$$
 $$y_1 = L_1 \sin(\theta_1)$$
@@ -26,15 +26,13 @@ $$x_2 = x_1 + L_2 \cos(\theta_1 + \theta_2)$$
 $$y_2 = y_1 + L_2 \sin(\theta_1 + \theta_2)$$
 
 ### 2. Velocity Mapping & The Jacobian Matrix
-The linear velocity Jacobian matrix $J_v \in \mathbb{R}^{2 \times 2}$ maps joint angular velocities to task-space linear velocities. 
+The linear velocity Jacobian matrix ($J_v$) is a 2x2 matrix that maps joint angular velocities to task-space linear velocities. 
 
-The joint velocity vector is defined as:
-$$\dot{\theta} = \begin{bmatrix} \dot{\theta}_1 \\ \dot{\theta}_2 \end{bmatrix}$$
+* The joint velocity vector is defined as: $\dot{\theta} = [\dot{\theta}_1, \dot{\theta}_2]^T$
+* The task-space linear velocity vector is defined as: $V = [\dot{x}_2, \dot{y}_2]^T$
 
-The task-space linear velocity vector is defined as:
-$$V = \begin{bmatrix} \dot{x}_2 \\ \dot{y}_2 \end{bmatrix}$$
+These spaces map to each other via the linear transformation:
 
-These spaces map to each other such that:
 $$V = J_v(\theta)\dot{\theta}$$
 
 By differentiating the forward kinematics equations, the analytical linear velocity Jacobian is derived as:
@@ -45,13 +43,13 @@ L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) & L_2 \cos(\theta_1 + \theta_
 \end{bmatrix}$$
 
 ### 3. Singular Value Decomposition (SVD) & Ellipsoid Geometry
-Assuming a unit sphere constraint on joint velocities ($\|\dot{\theta}\|^2 \le 1$), the mapping creates an ellipsoid in the velocity task-space. This project utilizes SVD to break down the Jacobian matrix:
+Assuming a unit sphere constraint on joint velocities, where the sum of squared joint velocities is less than or equal to 1, the mapping creates an ellipsoid in the velocity task-space. This project utilizes SVD to break down the Jacobian matrix:
 
 $$J_v = U \Sigma V^T$$
 
-* **Eigenvectors ($U$):** The columns of the orthogonal matrix $U$ define the rotation matrix of the ellipse axes relative to the base frame. The major axis angle is computed via:
+* **Eigenvectors (U):** The columns of the orthogonal matrix U define the rotation matrix of the ellipse axes relative to the base frame. The major axis angle is computed via:
   $$\phi = \text{atan2}(U_{1,0}, U_{0,0})$$
-* **Singular Values ($\Sigma = \operatorname{diag}(\sigma_1, \sigma_2)$):** The singular values ($\sigma_{\max}, \sigma_{\min}$) correspond directly to the lengths of the semi-major and semi-minor axes of the manipulability ellipsoid.
+* **Singular Values:** The singular values (sigma1, sigma2) correspond directly to the lengths of the semi-major and semi-minor axes of the manipulability ellipsoid.
 
 ---
 
@@ -59,11 +57,17 @@ $$J_v = U \Sigma V^T$$
 
 The script calculates and outputs three primary performance indicators to evaluate the robot's posture:
 
-| Metric | Mathematical Form | Description |
-| :--- | :--- | :--- |
-| **Yoshikawa's Manipulability Measure ($\mu_1$)** | $\sqrt{\det(J_v J_v^T)} = \sigma_1 \sigma_2$ | Proportional to the volume of the ellipsoid. High values denote massive multi-directional mobility; a value of $0$ indicates a kinematic singularity. |
-| **Condition Number ($\mu_2$)** | $\frac{\sigma_{\max}}{\sigma_{\min}}$ | Measures directional fluidity (isotropy). A value of $1.0$ represents a perfect sphere (uniform movement ease). Higher numbers mean poor directional movement. |
-| **Distance to Singularity ($\mu_3$)** | $\sigma_{\min}$ | Monitors structural limits by tracking the magnitude of the weakest operational vector. |
+### 1. Yoshikawa's Manipulability Measure
+* **Mathematical Form:** $$\mu_1 = \sqrt{\text{det}(J_v J_v^T)} = \sigma_1 \sigma_2$$
+* **Description:** Proportional to the volume of the ellipsoid. High values denote massive multi-directional mobility; a value of 0 indicates a kinematic singularity.
+
+### 2. Condition Number
+* **Mathematical Form:** $$\mu_2 = \frac{\sigma_1}{\sigma_2}$$
+* **Description:** Measures directional fluidity (isotropy). A value of 1.0 represents a perfect sphere (uniform movement ease). Higher numbers mean poor directional movement.
+
+### 3. Distance to Singularity
+* **Mathematical Form:** $$\mu_3 = \sigma_2$$
+* **Description:** Monitors structural limits by tracking the magnitude of the weakest operational vector (the smallest singular value).
 
 ---
 
