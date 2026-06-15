@@ -4,7 +4,7 @@ An interactive Python-based robotics application that calculates and visualizes 
 
 ---
 
-## 🚀 Visual Features
+##  Visual Features
 
 The analyzer evaluates specified joint configurations and dynamically overlays a scaled manipulability ellipse right at the end-effector tip:
 
@@ -13,7 +13,7 @@ The analyzer evaluates specified joint configurations and dynamically overlays a
 
 ---
 
-## 🧠 Kinematics & Mathematical Foundation
+##  Kinematics & Mathematical Foundation
 
 This project implements core theory outlined in foundational robotic textbooks like *Modern Robotics* (Lynch & Park).
 
@@ -53,7 +53,7 @@ $$J_v = U \Sigma V^T$$
 
 ---
 
-## 📊 Quantitative Dexterity Metrics
+##  Quantitative Dexterity Metrics
 
 The script calculates and outputs three primary performance indicators to evaluate the robot's posture:
 
@@ -71,7 +71,7 @@ The script calculates and outputs three primary performance indicators to evalua
 
 ---
 
-## 🛠️ Installation & Execution
+##  Installation & Execution
 
 ### 1. Prerequisites
 Ensure you have Python 3.8+ installed along with standard environment managers.
