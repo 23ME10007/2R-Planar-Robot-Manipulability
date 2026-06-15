@@ -4,7 +4,7 @@ An interactive Python-based robotics application that calculates and visualizes 
 
 ---
 
-##  Visual Features
+## 🚀 Visual Features
 
 The analyzer evaluates specified joint configurations and dynamically overlays a scaled manipulability ellipse right at the end-effector tip:
 
@@ -13,7 +13,7 @@ The analyzer evaluates specified joint configurations and dynamically overlays a
 
 ---
 
-##  Kinematics & Mathematical Foundation
+## 🧠 Kinematics & Mathematical Foundation
 
 This project implements core theory outlined in foundational robotic textbooks like *Modern Robotics* (Lynch & Park).
 
@@ -26,8 +26,15 @@ $$x_2 = x_1 + L_2 \cos(\theta_1 + \theta_2)$$
 $$y_2 = y_1 + L_2 \sin(\theta_1 + \theta_2)$$
 
 ### 2. Velocity Mapping & The Jacobian Matrix
-The linear velocity Jacobian matrix $J_v \in \mathbb{R}^{2 \times 2}$ maps joint angular velocities $\dot{\theta} = \begin{bmatrix} \dot{\theta}_1 & \dot{\theta}_2 \end{bmatrix}^T$ to task-space linear velocities $V = \begin{bmatrix} \dot{x}_2 & \dot{y}_2 \end{bmatrix}^T$ such that:
+The linear velocity Jacobian matrix $J_v \in \mathbb{R}^{2 \times 2}$ maps joint angular velocities to task-space linear velocities. 
 
+The joint velocity vector is defined as:
+$$\dot{\theta} = \begin{bmatrix} \dot{\theta}_1 \\ \dot{\theta}_2 \end{bmatrix}$$
+
+The task-space linear velocity vector is defined as:
+$$V = \begin{bmatrix} \dot{x}_2 \\ \dot{y}_2 \end{bmatrix}$$
+
+These spaces map to each other such that:
 $$V = J_v(\theta)\dot{\theta}$$
 
 By differentiating the forward kinematics equations, the analytical linear velocity Jacobian is derived as:
@@ -48,7 +55,7 @@ $$J_v = U \Sigma V^T$$
 
 ---
 
-##  Quantitative Dexterity Metrics
+## 📊 Quantitative Dexterity Metrics
 
 The script calculates and outputs three primary performance indicators to evaluate the robot's posture:
 
@@ -60,7 +67,7 @@ The script calculates and outputs three primary performance indicators to evalua
 
 ---
 
-##  Installation & Execution
+## 🛠️ Installation & Execution
 
 ### 1. Prerequisites
 Ensure you have Python 3.8+ installed along with standard environment managers.
